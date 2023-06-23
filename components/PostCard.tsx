@@ -9,30 +9,28 @@ interface PostCardProps {
 
 const PostCard = ({ post }: PostCardProps) => {
 	return (
-		<article className='mb-8 rounded-lg bg-white pb-12 shadow-lg lg:p-8'>
+		<article className='mb-8 rounded-lg bg-slate-100 pb-12 shadow-lg lg:p-8'>
 			<div className='relative mb-6 h-80 w-full overflow-hidden pb-80 shadow-md'>
 				<Image
 					fill
 					src={post.featuredImage.url}
 					alt={post.title}
-					className='absolute rounded-t-lg object-cover object-top shadow-lg lg:rounded-lg'
+					className='rounded-t-lg object-cover shadow-lg lg:rounded-lg'
 				/>
 			</div>
-			<h1 className='mb-8 cursor-pointer text-center text-3xl font-semibold transition duration-700 hover:text-pink-600'>
+			<h1 className='mb-8 cursor-pointer text-center text-3xl font-semibold transition duration-300 hover:text-pink-600'>
 				<Link href={`/post/${post.slug}`}>{post.title}</Link>
 			</h1>
-			<div className='mb-8 block w-full items-center justify-center text-center lg:flex'>
-				<div className='mb-4 mr-8 flex items-center justify-center lg:mb-0 lg:w-auto'>
+			<div className='mb-8 block w-full items-center justify-center text-center lg:flex lg:gap-8'>
+				<div className='mb-4 flex items-center justify-center gap-2 lg:mb-0 lg:w-auto'>
 					<Image
 						src={post.author.photo.url}
 						alt={post.author.name}
 						width={50}
 						height={50}
-						className='rounded-full align-middle'
+						className='rounded-full'
 					/>
-					<p className='ml-2 inline align-middle text-lg text-gray-700'>
-						{post.author.name}
-					</p>
+					<p className='text-lg text-gray-700'>{post.author.name}</p>
 				</div>
 				<div className='font-medium text-gray-700'>
 					<svg
@@ -48,15 +46,17 @@ const PostCard = ({ post }: PostCardProps) => {
 							d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
 						/>
 					</svg>
-					<span>{moment(post.createdAt).format('MMM DD, YYYY')}</span>
+					<time dateTime={post.createdAt} className='align-middle'>
+						{moment(post.createdAt).format('MMM DD, YYYY')}
+					</time>
 				</div>
 			</div>
-			<p className='mb-8 px-4 text-center text-lg font-normal text-gray-700 lg:px-20'>
+			<p className='mb-8 px-6 text-center font-normal text-gray-700 md:text-lg'>
 				{post.excerpt}
 			</p>
 			<div className='text-center'>
 				<Link href={`/post/${post.slug}`}>
-					<span className='inline-block transform cursor-pointer rounded-full bg-pink-600 px-8 py-3 text-lg font-medium text-white transition duration-500 hover:-translate-y-1'>
+					<span className='inline-block cursor-pointer rounded-full bg-pink-600 px-8 py-3 text-lg font-medium text-white transition duration-500 hover:-translate-y-1'>
 						Continue Reading
 					</span>
 				</Link>
