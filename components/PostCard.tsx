@@ -51,12 +51,12 @@ const PostCard = ({ post }: PostCardProps) => {
 					</time>
 				</div>
 			</div>
-			<p className='mb-8 px-6 text-center font-normal text-gray-700 md:text-lg'>
+			<p className='mb-8 px-6 text-center text-sm font-normal text-gray-700 md:text-lg'>
 				{post.excerpt}
 			</p>
 			<div className='text-center'>
 				<Link href={`/post/${post.slug}`}>
-					<span className='inline-block cursor-pointer rounded-full bg-pink-600 px-8 py-3 text-lg font-medium text-white transition duration-500 hover:-translate-y-1'>
+					<span className='inline-block cursor-pointer rounded-full bg-pink-600 px-4 py-3 text-lg font-medium text-white transition duration-500 hover:-translate-y-1 sm:px-6 md:px-8'>
 						Continue Reading
 					</span>
 				</Link>
