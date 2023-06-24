@@ -1,4 +1,4 @@
-import { Category, FullPost, Post } from '@/types';
+import { Category, Comment, FullPost, Post, UserData } from '@/types';
 import { request, gql } from 'graphql-request';
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_API || '';
@@ -135,8 +135,8 @@ export const getPostBySlug = async (slug: string) => {
 					slug
 				}
 				content {
-          raw
-        }
+					raw
+				}
 			}
 		}
 	`;
@@ -144,4 +144,54 @@ export const getPostBySlug = async (slug: string) => {
 	const response = (await request(graphqlAPI, query, { slug })) as any;
 
 	return response.post as FullPost;
+};
+
+export const postComment = async (data: UserData) => {
+	const result = await fetch('/api/comments', {
+		method: 'POST',
+		body: JSON.stringify(data),
+	});
+
+	return result.json();
+};
+
+export const getComments = async (slug: string) => {
+	const query = gql`
+		query GetComments($slug: String!) {
+			comments(where: { post: { slug: $slug } }) {
+				name
+				createdAt
+				comment
+			}
+		}
+	`;
+
+	const response = (await request(graphqlAPI, query, { slug })) as any;
+
+	return response.comments as Comment[];
+};
+
+export const getFeaturedPosts = async () => {
+	const query = gql`
+		query GetFeaturedPosts {
+			posts(where: { featuredPost: true }) {
+				author {
+					name
+					photo {
+						url
+					}
+				}
+				featuredImage {
+					url
+				}
+				title
+				slug
+				createdAt
+			}
+		}
+	`;
+
+	const response = (await request(graphqlAPI, query)) as any;
+
+	return response.posts as Post[];
 };
