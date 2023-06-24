@@ -1,6 +1,6 @@
+import { Post } from '@/types';
 import moment from 'moment';
 import Image from 'next/image';
-import { Post } from '@/services';
 import Link from 'next/link';
 
 interface PostCardProps {
