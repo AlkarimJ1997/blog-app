@@ -18,6 +18,14 @@ export interface Post {
 		name: string;
 		slug: string;
 	}[];
+  content?: {
+    raw: {
+      children: {
+        type: string;
+        children: any[];
+      }
+    }
+  }
 }
 
 export interface Category {

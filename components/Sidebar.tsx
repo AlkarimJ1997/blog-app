@@ -1,11 +1,16 @@
 import Categories from '@/components/Categories';
 import PostWidget from '@/components/PostWidget';
 
-const Sidebar = () => {
+interface SidebarProps {
+	slug?: string;
+	categories?: string[];
+}
+
+const Sidebar = ({ slug, categories }: SidebarProps) => {
 	return (
 		<aside className='col-span-1 lg:col-span-4'>
 			<div className='relative top-8 lg:sticky'>
-				<PostWidget />
+				<PostWidget slug={slug} categories={categories} />
 				<Categories />
 			</div>
 		</aside>

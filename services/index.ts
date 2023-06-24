@@ -75,8 +75,8 @@ export const getSimilarPosts = async (categories: string[], slug: string) => {
 				where: {
 					slug_not: $slug
 					AND: { categories_some: { slug_in: $categories } }
-					last: 3
 				}
+				last: 3
 			) {
 				title
 				featuredImage {
@@ -109,4 +109,39 @@ export const getCategories = async () => {
 	const response = (await request(graphqlAPI, query)) as any;
 
 	return response.categories as Category[];
+};
+
+export const getPostBySlug = async (slug: string) => {
+	const query = gql`
+		query GetPostDetails($slug: String!) {
+			post(where: { slug: $slug }) {
+				author {
+					bio
+					id
+					name
+					photo {
+						url
+					}
+				}
+				createdAt
+				slug
+				title
+				excerpt
+				featuredImage {
+					url
+				}
+				categories {
+					name
+					slug
+				}
+				content {
+					raw
+				}
+			}
+		}
+	`;
+
+	const response = (await request(graphqlAPI, query, { slug })) as any;
+
+	return response.post as Post;
 };
