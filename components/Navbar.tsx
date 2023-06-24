@@ -1,11 +1,9 @@
+import { getCategories } from '@/services';
 import Link from 'next/link';
 
-const categories = [
-	{ name: 'React', slug: 'react' },
-	{ name: 'Web Development', slug: 'web-dev' },
-];
+const Navbar = async () => {
+	const categories = await getCategories();
 
-const Navbar = () => {
 	return (
 		<header className='container mx-auto mb-8 px-10'>
 			<nav className='flex justify-between border-b border-blue-400 py-8'>
