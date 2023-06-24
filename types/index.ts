@@ -1,3 +1,5 @@
+import type { RichTextContent } from '@graphcms/rich-text-types';
+
 export interface Post {
 	author: {
 		bio: string;
@@ -18,14 +20,12 @@ export interface Post {
 		name: string;
 		slug: string;
 	}[];
-  content?: {
-    raw: {
-      children: {
-        type: string;
-        children: any[];
-      }
-    }
-  }
+}
+
+export interface FullPost extends Post {
+	content: {
+		raw: RichTextContent;
+	};
 }
 
 export interface Category {

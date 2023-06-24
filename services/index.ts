@@ -1,4 +1,4 @@
-import { Category, Post } from '@/types';
+import { Category, FullPost, Post } from '@/types';
 import { request, gql } from 'graphql-request';
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_API || '';
@@ -135,13 +135,13 @@ export const getPostBySlug = async (slug: string) => {
 					slug
 				}
 				content {
-					raw
-				}
+          raw
+        }
 			}
 		}
 	`;
 
 	const response = (await request(graphqlAPI, query, { slug })) as any;
 
-	return response.post as Post;
+	return response.post as FullPost;
 };

@@ -1,72 +1,15 @@
-import { Post } from '@/types';
+import { FullPost } from '@/types';
 import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { RichText } from '@graphcms/rich-text-react-renderer';
 
 interface PostDetailProps {
-	post: Post;
+	post: FullPost;
 }
 
 const PostDetail = ({ post }: PostDetailProps) => {
-	const getContentFragment = (
-		index: number,
-		text: string,
-		obj: any,
-		type: string
-	) => {
-		let modifiedText: any = text;
-
-		if (obj) {
-			if (obj.bold) {
-				modifiedText = <b key={index}>{text}</b>;
-			}
-
-			if (obj.italic) {
-				modifiedText = <em key={index}>{text}</em>;
-			}
-
-			if (obj.underline) {
-				modifiedText = <u key={index}>{text}</u>;
-			}
-		}
-
-		switch (type) {
-			case 'heading-three':
-				return (
-					<h3 key={index} className='mb-4 text-xl font-semibold'>
-						{modifiedText}
-					</h3>
-				);
-			case 'paragraph':
-				return (
-					<p key={index} className='mb-8'>
-						{modifiedText.map((item: any, i: number) => (
-							<React.Fragment key={i}>{item}</React.Fragment>
-						))}
-					</p>
-				);
-			case 'heading-four':
-				return (
-					<h4 key={index} className='mb-4 text-lg font-semibold'>
-						{modifiedText}
-					</h4>
-				);
-			case 'image':
-				return (
-					<Image
-						key={index}
-						src={obj.src}
-						alt={obj.title}
-						width={obj.width}
-						height={obj.height}
-					/>
-				);
-			default:
-				return modifiedText;
-		}
-	};
-
 	return (
 		<article className='mb-8 rounded-lg bg-slate-100 pb-12 shadow-lg lg:p-8'>
 			<div className='relative mb-6 h-full w-full pb-80 shadow-md'>
@@ -109,18 +52,29 @@ const PostDetail = ({ post }: PostDetailProps) => {
 					</div>
 				</div>
 				<h1 className='mb-8 text-3xl font-semibold'>{post.title}</h1>
-				{post.content?.raw.children.map((contentObj, index) => {
-					const children = contentObj.children.map((item, itemIndex) => {
-						return getContentFragment(itemIndex, item.text, item);
-					});
-
-					return getContentFragment(
-						index,
-						children,
-						contentObj,
-						contentObj.type
-					);
-				})}
+				<RichText
+					content={post.content.raw}
+					renderers={{
+						bold: ({ children }) => <b>{children}</b>,
+						italic: ({ children }) => <em>{children}</em>,
+						underline: ({ children }) => <u>{children}</u>,
+						h3: ({ children }) => (
+							<h3 className='mb-4 text-xl font-semibold'>{children}</h3>
+						),
+						h4: ({ children }) => (
+							<h4 className='mb-4 text-lg font-semibold'>{children}</h4>
+						),
+						p: ({ children }) => <p className='mb-8'>{children}</p>,
+						img: ({ src, title, width, height }) => (
+							<Image
+								src={src || ''}
+								alt={title || ''}
+								width={width}
+								height={height}
+							/>
+						),
+					}}
+				/>
 			</div>
 		</article>
 	);
