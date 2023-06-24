@@ -33,7 +33,7 @@ const PostCarousel = async () => {
 				infinite={true}
 				ssr={true}
 				responsive={responsive}
-				itemClass='px-4'>
+				itemClass='px-4 mr-4'>
 				{featuredPosts.map((post, index) => (
 					<FeaturedPostCard key={index} post={post} />
 				))}

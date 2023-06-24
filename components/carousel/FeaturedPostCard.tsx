@@ -9,37 +9,42 @@ interface FeaturedPostCardProps {
 
 const FeaturedPostCard = ({ post }: FeaturedPostCardProps) => {
 	return (
-		<div className='relative h-72'>
-			<div
-				className='absolute inline-block h-72 w-full rounded-lg bg-cover bg-center bg-no-repeat shadow-md'
-				style={{ backgroundImage: `url('${post.featuredImage.url}')` }}
-			/>
-			<div className='absolute h-72 w-full rounded-lg bg-gradient-to-b from-gray-400 via-gray-700 to-black bg-center opacity-50' />
-			<div className='absolute flex h-full w-full flex-col items-center justify-center rounded-lg p-4'>
-				<p className='text-shadow mb-4 text-xs font-semibold text-white'>
-					{moment(post.createdAt).format('MMM DD, YYYY')}
-				</p>
-				<p className='text-shadow mb-4 text-center text-2xl font-semibold text-white'>
-					{post.title}
-				</p>
-				<div className='absolute bottom-5 flex w-full items-center justify-center'>
-					<Image
-						unoptimized
-						alt={post.author.name}
-						width={30}
-						height={30}
-						className='rounded-full align-middle drop-shadow-lg'
-						src={post.author.photo.url}
-					/>
-					<p className='text-shadow ml-2 inline align-middle font-medium text-white'>
-						{post.author.name}
+		<Link href={`/post/${post.slug}`} className='outline-none'>
+			<div className='grid place-items-center rounded-lg bg-gradient-to-b from-gray-400 via-gray-700 to-black opacity-60 shadow-md'>
+				<div className='col-[1/2] row-[1/2] text-center'>
+					<time
+						dateTime={post.createdAt}
+						className='text-shadow mb-4 block text-xs font-semibold text-slate-100'>
+						{moment(post.createdAt).format('MMM DD, YYYY')}
+					</time>
+					<p className='text-shadow mb-4 text-2xl font-semibold text-slate-100'>
+						{post.title}
 					</p>
+					<div className='flex items-center justify-center gap-2'>
+						<Image
+							unoptimized
+							src={post.author.photo.url}
+							alt={post.author.name}
+							width={30}
+							height={30}
+							className='rounded-full drop-shadow-lg'
+						/>
+						<p className='text-shadow font-medium text-slate-100'>
+							{post.author.name}
+						</p>
+					</div>
+				</div>
+				<div className='-z-10 col-[1/2] row-[1/2] h-72 w-full'>
+					<Image
+						fill
+						src={post.featuredImage.url}
+						alt={post.title}
+						className='rounded-lg object-cover'
+					/>
 				</div>
 			</div>
-			<Link href={`/post/${post.slug}`}>
-				<span className='absolute h-full w-full cursor-pointer' />
-			</Link>
-		</div>
+			<span className='sr-only'>{post.title}</span>
+		</Link>
 	);
 };
 
